@@ -27,6 +27,12 @@
             padding: 30px;
         }
         
+        .logo {
+            width: 120px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        
         h1 {
             text-align: center;
             color: #667eea;
@@ -37,8 +43,29 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 14px;
+        }
+        
+        .aviso {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .aviso-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .aviso-texto {
+            color: #856404;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
         }
         
         .search-box {
@@ -235,8 +262,19 @@
 </head>
 <body>
     <div class="container">
+        <img src="https://drive.google.com/uc?export=view&id=1EUUbOYz1udQe8sz0iWFJsxug2k7jdzYA" alt="Logo" class="logo">
+        
         <h1>💰 Calculadora de Vendas</h1>
         <p class="subtitle">Digite as quantidades vendidas e calcule o total</p>
+        
+        <div class="aviso">
+            <div class="aviso-icon">⚠️</div>
+            <div class="aviso-texto">
+                ATENÇÃO: Esta calculadora NÃO salva suas vendas!<br>
+                Você precisa preencher todas as quantidades toda vez que usar.<br>
+                Anote os valores antes de sair da página.
+            </div>
+        </div>
         
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="🔍 Buscar produto...">
@@ -264,7 +302,7 @@
                 { nome: "DABELLE CREME DE PENTEAR 270G", preco: 11.36 },
                 { nome: "DABELLE CREME DE PENTEAR 550G", preco: 16.98 },
                 { nome: "DABELLE EFEITO TEIA", preco: 24.62 },
-                { nome: "DABELLE FLUIDO 180ML", preco: 19.62 },
+                { nome: "DABELLE FLUIDO SELANTE 180ML", preco: 19.62 },
                 { nome: "DABELLE GEL LIQUIDO 270ML", preco: 10.62 },
                 { nome: "DABELLE GELATINA 400G", preco: 12.87 },
                 { nome: "DABELLE GELATINA 500G", preco: 14.94 },
