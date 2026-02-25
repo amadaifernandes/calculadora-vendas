@@ -307,8 +307,7 @@
 </head>
 <body>
     <!-- Anti-screenshot -->
-    <video id="antiScreenshot" playsinline muted autoplay loop
-        style="position:fixed;left:0;top:0;width:100%;height:100%;z-index:99999;pointer-events:none;"></video>
+    <div id="antiScreenshot" style="position:fixed;left:0;top:0;width:100%;height:100%;z-index:99999;pointer-events:none;background:black;display:none;"></div>
     <div class="container">
         <div class="header-container">
             <img src="logo.png" alt="Logo" class="logo">
@@ -351,43 +350,53 @@
 
         // Anti-screenshot: tela preta ao tirar print
         (function() {
-            const video = document.getElementById('antiScreenshot');
+            const overlay = document.getElementById('antiScreenshot');
 
-            // Técnica 1: canvas transparente — invisível na tela, preto na captura (funciona em Android/Chrome)
-            try {
-                const canvas = document.createElement('canvas');
-                canvas.width = 1; canvas.height = 1;
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, 1, 1); // totalmente transparente
-                const stream = canvas.captureStream();
-                video.srcObject = stream;
-            } catch(e) {}
+            function escurecer() {
+                overlay.style.display = 'block';
+                document.body.style.filter = 'brightness(0)';
+            }
+            function clarear() {
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    document.body.style.filter = '';
+                }, 400);
+            }
 
-            // Técnica 2: escurecer ao detectar visibilidade perdida (PrintScreen no Windows abre preview)
-            document.addEventListener('visibilitychange', function() {
-                if (document.visibilityState === 'hidden') {
-                    document.body.style.filter = 'brightness(0)';
-                } else {
-                    setTimeout(() => document.body.style.filter = '', 300);
-                }
-            });
-
-            // Técnica 3: detectar PrintScreen (keyup)
+            // PC: detectar PrintScreen
             document.addEventListener('keyup', function(e) {
                 if (e.key === 'PrintScreen') {
-                    document.body.style.filter = 'brightness(0)';
-                    setTimeout(() => document.body.style.filter = '', 500);
-                    // Limpar área de transferência se possível
+                    escurecer();
+                    clarear();
                     try { navigator.clipboard.writeText(''); } catch(e) {}
                 }
             });
 
-            // Técnica 4: bloquear Ctrl+P (imprimir)
+            // PC: bloquear Ctrl+P
             document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'p') {
-                    e.preventDefault();
+                if (e.ctrlKey && e.key === 'p') e.preventDefault();
+            });
+
+            // Mobile + PC: detectar quando app vai para background (botão home, troca de app, notificação)
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden') {
+                    escurecer();
+                } else {
+                    clarear();
                 }
             });
+
+            // Mobile: detectar quando a tela perde foco (ex: assistente, captura do sistema)
+            window.addEventListener('blur', function() {
+                escurecer();
+            });
+            window.addEventListener('focus', function() {
+                clarear();
+            });
+
+            // Técnica CSS extra: -webkit-user-select bloqueia captura em alguns navegadores mobile
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.userSelect = 'none';
         })();
     </script>
 </body>
