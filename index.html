@@ -254,6 +254,38 @@
             color: white;
         }
         
+        .resultado .aproximado {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .erro-validacao {
+            margin-top: 25px;
+            padding: 20px;
+            background: #ff6b6b;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            color: white;
+        }
+        
+        .erro-validacao.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        
+        .erro-validacao h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .erro-validacao p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
         .limpar-btn {
             width: 100%;
             padding: 12px;
@@ -276,8 +308,8 @@
 <body>
     <div class="container">
         <div class="header-container">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h1> Calculadora de Vendas</h1>
+            <img src="SEU_LOGO_AQUI.png" alt="Logo" class="logo">
+            <h1>💰 Calculadora de Vendas</h1>
         </div>
         <p class="subtitle">Digite as quantidades vendidas e calcule o total</p>
         
@@ -296,209 +328,23 @@
         
         <div id="produtos-container"></div>
         
-        <button class="calcular-btn" onclick="calcularTotal()">Calcular Total</button>
+        <button class="calcular-btn" onclick="_0x3a8f52()">Calcular Total</button>
         
         <div class="resultado" id="resultado">
             <h2>Valor Total das Vendas</h2>
             <div class="valor" id="valorTotal">R$ 0,00</div>
-            <button class="limpar-btn" onclick="limparFormulario()">Limpar Tudo</button>
+            <div class="aproximado">* Valor aproximado para referência</div>
+            <button class="limpar-btn" onclick="_0x4b9e63()">Limpar Tudo</button>
+        </div>
+        
+        <div class="erro-validacao" id="erroValidacao">
+            <h3>⚠️ Quantidade insuficiente</h3>
+            <p id="mensagemErro"></p>
         </div>
     </div>
 
     <script>
-        const produtos = {
-            "DABELLE": [
-                { nome: "DABELLE - ATIVADOR DE CACHOS - 270G", preco: 12.81 },
-                { nome: "DABELLE - KIT OLEOS - 135ML", preco: 37.44 },
-                { nome: "DABELLE - OLEO CACHOS - 75ML", preco: 14.06 },
-                { nome: "DABELLE - CONDICIONADOR - 200ML", preco: 9.11 },
-                { nome: "DABELLE - CPP JUJUBA - 1KG", preco: 20.56 },
-                { nome: "DABELLE - CREME DE PENTEAR - 270G", preco: 11.36 },
-                { nome: "DABELLE - CREME DE PENTEAR - 550G", preco: 16.98 },
-                { nome: "DABELLE - EFEITO TEIA - 140G", preco: 24.62 },
-                { nome: "DABELLE - FLUIDO - 180ML", preco: 19.62 },
-                { nome: "DABELLE - GEL LIQUIDO - 270ML", preco: 10.62 },
-                { nome: "DABELLE - GELATINA - 400G", preco: 12.87 },
-                { nome: "DABELLE - GELATINA - 500G", preco: 14.94 },
-                { nome: "DABELLE - GELATINA - 800G", preco: 18.69 },
-                { nome: "DABELLE - MASCARA CRONO - 400G", preco: 15.49 },
-                { nome: "DABELLE - KIT MASCARAS - 1200G", preco: 31.19 },
-                { nome: "DABELLE - KIT SH+COND - 425ML", preco: 15.73 },
-                { nome: "DABELLE - KIT SH+COND - 585ML", preco: 18.37 },
-                { nome: "DABELLE - MASCARA - 400G", preco: 13.06 },
-                { nome: "DABELLE - MASCARA - 800G", preco: 17.65 },
-                { nome: "DABELLE - KIT ESPECIAL BRILHO - 546G", preco: 41.68 },
-                { nome: "DABELLE - MASCARA LIQUIDA - 200ML", preco: 28.06 },
-                { nome: "DABELLE - MODELADOR - 270G", preco: 17.43 },
-                { nome: "DABELLE - OLEO - 45ML", preco: 17.31 },
-                { nome: "DABELLE - OLEO - 75ML", preco: 22.74 },
-                { nome: "DABELLE - OLEO EM CREME - 190ML", preco: 16.34 },
-                { nome: "DABELLE - OLEO CACHOS - 75ML", preco: 14.06 },
-                { nome: "DABELLE - POTENCIALIZADOR - 30ML", preco: 19.06 },
-                { nome: "DABELLE - SPRAY FINALIZADOR - 200ML", preco: 26.62 },
-                { nome: "DABELLE - SERUM - 75ML", preco: 24.06 },
-                { nome: "DABELLE - SHAMPOO - 250ML", preco: 8.37 },
-                { nome: "DABELLE - PROTEINA LIQUIDA - 75ML", preco: 15.12 },
-                { nome: "DABELLE - SHAMPOO - 410ML", preco: 11.31 },
-                { nome: "DABELLE - SPRAY CACHOS - 200ML", preco: 20.68 },
-                { nome: "DABELLE - TONICO CAPILAR - 100ML", preco: 10.81 },
-                { nome: "DABELLE - KIT SH+OLEO EM CREME - 290ML", preco: 16.34 },
-                { nome: "DABELLE - SPRAY FINALIZADOR - 180ML", preco: 19.62 }
-            ],
-            "DABELLE BEAUTY": [
-                { nome: "DABELLE BEAUTY - LIP BALM", preco: 18.69 }
-            ],
-            "EICO": [
-                { nome: "EICO - ACIDIFICANTE - 180ML", preco: 17.12 },
-                { nome: "EICO - CONDICIONADOR - 450ML", preco: 13.50 },
-                { nome: "EICO - CONDICIONADOR - 800ML", preco: 25.58 },
-                { nome: "EICO - CREME DE PENTEAR - 600ML", preco: 20.56 },
-                { nome: "EICO - FINALIZADOR - 200ML", preco: 25.37 },
-                { nome: "EICO - GELATINA - 200ML", preco: 17.12 },
-                { nome: "EICO - KIT MASCARAS - 810G", preco: 37.74 },
-                { nome: "EICO - KIT SH+COND - 1250ML", preco: 29.90 },
-                { nome: "EICO - KIT SH+COND - 1550ML", preco: 28.32 },
-                { nome: "EICO - KIT SH+COND - 850ML", preco: 23.34 },
-                { nome: "EICO - KIT SH+PÓS TRATAMENTO - 840ML", preco: 34.31 },
-                { nome: "EICO - LEAVE IN - 200ML", preco: 21.93 },
-                { nome: "EICO - MANTEIGA - 180ML", preco: 17.12 },
-                { nome: "EICO - MASCARA - 1KG", preco: 28.52 },
-                { nome: "EICO - MASCARA - 270G", preco: 13.68 },
-                { nome: "EICO - MEGA DOSE - 45ML", preco: 7.14 },
-                { nome: "EICO - MODELADOR - 250ML", preco: 22.62 },
-                { nome: "EICO - OLEO - 60ML", preco: 23.99 },
-                { nome: "EICO - OLEO - 7ML", preco: 5.43 },
-                { nome: "EICO - SACHE DE HIDRATACAO - 40G", preco: 3.43 },
-                { nome: "EICO - SHAMPOO - 450ML", preco: 13.50 },
-                { nome: "EICO - SHAMPOO - 800ML", preco: 25.58 },
-                { nome: "EICO - SPRAY FINALIZADOR - 120ML", preco: 18.49 },
-                { nome: "EICO - TONICO CAPILAR - 120ML", preco: 17.12 }
-            ],
-            "EICO PRO": [
-                { nome: "EICO PRO - KIT - 700ML", preco: 62.44 },
-                { nome: "EICO PRO - SHAMPOO - 300ML", preco: 24.94 },
-                { nome: "EICO PRO - CONDICIONADOR - 300ML", preco: 24.94 },
-                { nome: "EICO PRO - MASCARA - 300G", preco: 31.19 },
-                { nome: "EICO PRO - FLUIDO - 200ML", preco: 28.06 },
-                { nome: "EICO PRO - LEAVE IN - 200ML", preco: 31.19 },
-                { nome: "EICO PRO - LEAVE IN - 500ML", preco: 33.06 },
-                { nome: "EICO PRO - SERUM - 100ML", preco: 37.44 },
-                { nome: "EICO PRO - BOOSTER - 30ML", preco: 20.56 },
-                { nome: "EICO PRO - MODELADOR - 250ML", preco: 33.06 },
-                { nome: "EICO PRO - GELATINA - 190ML", preco: 31.19 },
-                { nome: "EICO PRO - OLEO - 100ML", preco: 40.56 },
-                { nome: "EICO PRO - OLEO - 30ML", preco: 24.94 },
-                { nome: "EICO PRO - ACIDIFICANTE - 190ML", preco: 31.19 },
-                { nome: "EICO PRO - EFEITO TEIA - 190ML", preco: 31.19 },
-                { nome: "EICO PRO - TONICO CAPILAR - 100ML", preco: 31.19 },
-                { nome: "EICO PRO - HYDRATION - 400ML", preco: 62.44 },
-                { nome: "EICO PRO - MASCARA LIQUIDA - 200ML", preco: 37.44 },
-                { nome: "EICO PRO - KIT SH+MASC - 600ML", preco: 40.56 }
-            ],
-            "TOQUE FINAL": [
-                { nome: "EICO TOQUE FINAL - OLEO - 100ML", preco: 28.69 },
-                { nome: "EICO TOQUE FINAL - CPP - 500ML", preco: 20.40 },
-                { nome: "EICO TOQUE FINAL - FLUIDO - 200ML", preco: 20.56 },
-                { nome: "EICO TOQUE FINAL - MASCARA - 500G", preco: 24.94 },
-                { nome: "EICO TOQUE FINAL - MASCARA LIQUIDA - 200ML", preco: 33.06 },
-                { nome: "EICO TOQUE FINAL - OLEO EM CREME - 190ML", preco: 21.81 },
-                { nome: "EICO TOQUE FINAL - CONDICIONADOR - 515ML", preco: 22.52 },
-                { nome: "EICO TOQUE FINAL - SHAMPOO - 515ML", preco: 22.52 }
-            ]
-        };
-
-        function renderizarProdutos() {
-            const container = document.getElementById('produtos-container');
-            container.innerHTML = '';
-            
-            for (const [marca, items] of Object.entries(produtos)) {
-                const section = document.createElement('div');
-                section.className = 'marca-section';
-                
-                const header = document.createElement('div');
-                header.className = 'marca-header';
-                header.innerHTML = `
-                    <span>${marca}</span>
-                    <span class="toggle-icon">▼</span>
-                `;
-                
-                const grid = document.createElement('div');
-                grid.className = 'produtos-grid';
-                
-                items.forEach((produto, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'produto-item';
-                    item.dataset.nome = produto.nome.toLowerCase();
-                    item.dataset.marca = marca.toLowerCase();
-                    
-                    item.innerHTML = `
-                        <div class="produto-nome">${produto.nome}</div>
-                        <div class="produto-input">
-                            <label>Qtd:</label>
-                            <input type="number" 
-                                   id="${marca}-${index}" 
-                                   min="0" 
-                                   value="0" 
-                                   data-preco="${produto.preco}">
-                        </div>
-                    `;
-                    
-                    grid.appendChild(item);
-                });
-                
-                header.onclick = function() {
-                    this.classList.toggle('collapsed');
-                    grid.style.display = grid.style.display === 'none' ? 'grid' : 'none';
-                };
-                
-                section.appendChild(header);
-                section.appendChild(grid);
-                container.appendChild(section);
-            }
-        }
-
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const items = document.querySelectorAll('.produto-item');
-            
-            items.forEach(item => {
-                const nome = item.dataset.nome;
-                const marca = item.dataset.marca;
-                
-                if (nome.includes(searchTerm) || marca.includes(searchTerm)) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        });
-
-        function calcularTotal() {
-            let total = 0;
-            const inputs = document.querySelectorAll('input[type="number"]');
-            
-            inputs.forEach(input => {
-                const quantidade = parseInt(input.value) || 0;
-                const preco = parseFloat(input.dataset.preco);
-                total += quantidade * preco;
-            });
-            
-            document.getElementById('valorTotal').textContent = 
-                'R$ ' + total.toFixed(2).replace('.', ',');
-            document.getElementById('resultado').classList.add('show');
-        }
-
-        function limparFormulario() {
-            const inputs = document.querySelectorAll('input[type="number"]');
-            inputs.forEach(input => input.value = 0);
-            document.getElementById('resultado').classList.remove('show');
-            document.getElementById('searchInput').value = '';
-            
-            const items = document.querySelectorAll('.produto-item');
-            items.forEach(item => item.classList.remove('hidden'));
-        }
-
-        renderizarProdutos();
+        const _0x2f4a=['DABELLE','DABELLE\x20-\x20ATIVADOR\x20DE\x20CACHOS\x20-\x20270G','DABELLE\x20-\x20KIT\x20OLEOS\x20-\x20135ML','DABELLE\x20-\x20OLEO\x20CACHOS\x20-\x2075ML','DABELLE\x20-\x20CONDICIONADOR\x20-\x20200ML','DABELLE\x20-\x20CPP\x20JUJUBA\x20-\x201KG','DABELLE\x20-\x20CREME\x20DE\x20PENTEAR\x20-\x20270G','DABELLE\x20-\x20CREME\x20DE\x20PENTEAR\x20-\x20550G','DABELLE\x20-\x20EFEITO\x20TEIA\x20-\x20140G','DABELLE\x20-\x20FLUIDO\x20-\x20180ML','DABELLE\x20-\x20GEL\x20LIQUIDO\x20-\x20270ML','DABELLE\x20-\x20GELATINA\x20-\x20400G','DABELLE\x20-\x20GELATINA\x20-\x20500G','DABELLE\x20-\x20GELATINA\x20-\x20800G','DABELLE\x20-\x20MASCARA\x20CRONO\x20-\x20400G','DABELLE\x20-\x20KIT\x20MASCARAS\x20-\x201200G','DABELLE\x20-\x20KIT\x20SH+COND\x20-\x20425ML','DABELLE\x20-\x20KIT\x20SH+COND\x20-\x20585ML','DABELLE\x20-\x20MASCARA\x20-\x20400G','DABELLE\x20-\x20MASCARA\x20-\x20800G','DABELLE\x20-\x20KIT\x20ESPECIAL\x20BRILHO\x20-\x20546G','DABELLE\x20-\x20MASCARA\x20LIQUIDA\x20-\x20200ML','DABELLE\x20-\x20MODELADOR\x20-\x20270G','DABELLE\x20-\x20OLEO\x20-\x2045ML','DABELLE\x20-\x20OLEO\x20-\x2075ML','DABELLE\x20-\x20OLEO\x20EM\x20CREME\x20-\x20190ML','DABELLE\x20-\x20OLEO\x20CACHOS\x20-\x2075ML','DABELLE\x20-\x20POTENCIALIZADOR\x20-\x2030ML','DABELLE\x20-\x20SPRAY\x20FINALIZADOR\x20-\x20200ML','DABELLE\x20-\x20SERUM\x20-\x2075ML','DABELLE\x20-\x20SHAMPOO\x20-\x20250ML','DABELLE\x20-\x20PROTEINA\x20LIQUIDA\x20-\x2075ML','DABELLE\x20-\x20SHAMPOO\x20-\x20410ML','DABELLE\x20-\x20SPRAY\x20CACHOS\x20-\x20200ML','DABELLE\x20-\x20TONICO\x20CAPILAR\x20-\x20100ML','DABELLE\x20-\x20KIT\x20SH+OLEO\x20EM\x20CREME\x20-\x20290ML','DABELLE\x20-\x20SPRAY\x20FINALIZADOR\x20-\x20180ML','DABELLE\x20BEAUTY','DABELLE\x20BEAUTY\x20-\x20LIP\x20BALM','EICO','EICO\x20-\x20ACIDIFICANTE\x20-\x20180ML','EICO\x20-\x20CONDICIONADOR\x20-\x20450ML','EICO\x20-\x20CONDICIONADOR\x20-\x20800ML','EICO\x20-\x20CREME\x20DE\x20PENTEAR\x20-\x20600ML','EICO\x20-\x20FINALIZADOR\x20-\x20200ML','EICO\x20-\x20GELATINA\x20-\x20200ML','EICO\x20-\x20KIT\x20MASCARAS\x20-\x20810G','EICO\x20-\x20KIT\x20SH+COND\x20-\x201250ML','EICO\x20-\x20KIT\x20SH+COND\x20-\x201550ML','EICO\x20-\x20KIT\x20SH+COND\x20-\x20850ML','EICO\x20-\x20KIT\x20SH+PÓS\x20TRATAMENTO\x20-\x20840ML','EICO\x20-\x20LEAVE\x20IN\x20-\x20200ML','EICO\x20-\x20MANTEIGA\x20-\x20180ML','EICO\x20-\x20MASCARA\x20-\x201KG','EICO\x20-\x20MASCARA\x20-\x20270G','EICO\x20-\x20MEGA\x20DOSE\x20-\x2045ML','EICO\x20-\x20MODELADOR\x20-\x20250ML','EICO\x20-\x20OLEO\x20-\x2060ML','EICO\x20-\x20OLEO\x20-\x207ML','EICO\x20-\x20SACHE\x20DE\x20HIDRATACAO\x20-\x2040G','EICO\x20-\x20SHAMPOO\x20-\x20450ML','EICO\x20-\x20SHAMPOO\x20-\x20800ML','EICO\x20-\x20SPRAY\x20FINALIZADOR\x20-\x20120ML','EICO\x20-\x20TONICO\x20CAPILAR\x20-\x20120ML','EICO\x20PRO','EICO\x20PRO\x20-\x20KIT\x20-\x20700ML','EICO\x20PRO\x20-\x20SHAMPOO\x20-\x20300ML','EICO\x20PRO\x20-\x20CONDICIONADOR\x20-\x20300ML','EICO\x20PRO\x20-\x20MASCARA\x20-\x20300G','EICO\x20PRO\x20-\x20FLUIDO\x20-\x20200ML','EICO\x20PRO\x20-\x20LEAVE\x20IN\x20-\x20200ML','EICO\x20PRO\x20-\x20LEAVE\x20IN\x20-\x20500ML','EICO\x20PRO\x20-\x20SERUM\x20-\x20100ML','EICO\x20PRO\x20-\x20BOOSTER\x20-\x2030ML','EICO\x20PRO\x20-\x20MODELADOR\x20-\x20250ML','EICO\x20PRO\x20-\x20GELATINA\x20-\x20190ML','EICO\x20PRO\x20-\x20OLEO\x20-\x20100ML','EICO\x20PRO\x20-\x20OLEO\x20-\x2030ML','EICO\x20PRO\x20-\x20ACIDIFICANTE\x20-\x20190ML','EICO\x20PRO\x20-\x20EFEITO\x20TEIA\x20-\x20190ML','EICO\x20PRO\x20-\x20TONICO\x20CAPILAR\x20-\x20100ML','EICO\x20PRO\x20-\x20HYDRATION\x20-\x20400ML','EICO\x20PRO\x20-\x20MASCARA\x20LIQUIDA\x20-\x20200ML','EICO\x20PRO\x20-\x20KIT\x20SH+MASC\x20-\x20600ML','TOQUE\x20FINAL','EICO\x20TOQUE\x20FINAL\x20-\x20OLEO\x20-\x20100ML','EICO\x20TOQUE\x20FINAL\x20-\x20CPP\x20-\x20500ML','EICO\x20TOQUE\x20FINAL\x20-\x20FLUIDO\x20-\x20200ML','EICO\x20TOQUE\x20FINAL\x20-\x20MASCARA\x20-\x20500G','EICO\x20TOQUE\x20FINAL\x20-\x20MASCARA\x20LIQUIDA\x20-\x20200ML','EICO\x20TOQUE\x20FINAL\x20-\x20OLEO\x20EM\x20CREME\x20-\x20190ML','EICO\x20TOQUE\x20FINAL\x20-\x20CONDICIONADOR\x20-\x20515ML','EICO\x20TOQUE\x20FINAL\x20-\x20SHAMPOO\x20-\x20515ML'];const _0x5c3d=[12.81,37.44,14.06,9.11,20.56,11.36,16.98,24.62,19.62,10.62,12.87,14.94,18.69,15.49,31.19,15.73,18.37,13.06,17.65,41.68,28.06,17.43,17.31,22.74,16.34,14.06,19.06,26.62,24.06,8.37,15.12,11.31,20.68,10.81,16.34,19.62,18.69,17.12,13.50,25.58,20.56,25.37,17.12,37.74,29.90,28.32,23.34,34.31,21.93,17.12,28.52,13.68,7.14,22.62,23.99,5.43,3.43,13.50,25.58,18.49,17.12,62.44,24.94,24.94,31.19,28.06,31.19,33.06,37.44,20.56,33.06,31.19,40.56,24.94,31.19,31.19,31.19,62.44,37.44,40.56,28.69,20.40,20.56,24.94,33.06,21.81,22.52,22.52];const _0x7d1b={};let _0x9e2c=0;for(let i=0;i<_0x2f4a['\x6c\x65\x6e\x67\x74\x68'];i++){if(i===0||i===37||i===39||i===64||i===83){_0x7d1b[_0x2f4a[i]]=[];continue;}if(_0x2f4a[i-1]===_0x2f4a[0]||_0x2f4a[i-1]===_0x2f4a[37]||_0x2f4a[i-1]===_0x2f4a[39]||_0x2f4a[i-1]===_0x2f4a[64]||_0x2f4a[i-1]===_0x2f4a[83]){let _0x1a5f=_0x2f4a[i-1];_0x7d1b[_0x1a5f]['\x70\x75\x73\x68']({'\x6e\x6f\x6d\x65':_0x2f4a[i],'\x70\x72\x65\x63\x6f':_0x5c3d[_0x9e2c++]});}else{let _0x1a5f=null;for(let j=i-1;j>=0;j--){if(j===0||j===37||j===39||j===64||j===83){_0x1a5f=_0x2f4a[j];break;}}if(_0x1a5f){_0x7d1b[_0x1a5f]['\x70\x75\x73\x68']({'\x6e\x6f\x6d\x65':_0x2f4a[i],'\x70\x72\x65\x63\x6f':_0x5c3d[_0x9e2c++]});}}}function _0x1c4e5a(){const _0x4f3b=document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x70\x72\x6f\x64\x75\x74\x6f\x73\x2d\x63\x6f\x6e\x74\x61\x69\x6e\x65\x72');_0x4f3b['\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c']='';for(const[_0x2a7b,_0x8d5e]of Object['\x65\x6e\x74\x72\x69\x65\x73'](_0x7d1b)){const _0x6c9f=document['\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74']('\x64\x69\x76');_0x6c9f['\x63\x6c\x61\x73\x73\x4e\x61\x6d\x65']='\x6d\x61\x72\x63\x61\x2d\x73\x65\x63\x74\x69\x6f\x6e';const _0x5b2d=document['\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74']('\x64\x69\x76');_0x5b2d['\x63\x6c\x61\x73\x73\x4e\x61\x6d\x65']='\x6d\x61\x72\x63\x61\x2d\x68\x65\x61\x64\x65\x72';_0x5b2d['\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c']='\x3c\x73\x70\x61\x6e\x3e'+_0x2a7b+'\x3c\x2f\x73\x70\x61\x6e\x3e\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x22\x74\x6f\x67\x67\x6c\x65\x2d\x69\x63\x6f\x6e\x22\x3e\u25bc\x3c\x2f\x73\x70\x61\x6e\x3e';const _0x3e8a=document['\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74']('\x64\x69\x76');_0x3e8a['\x63\x6c\x61\x73\x73\x4e\x61\x6d\x65']='\x70\x72\x6f\x64\x75\x74\x6f\x73\x2d\x67\x72\x69\x64';_0x8d5e['\x66\x6f\x72\x45\x61\x63\x68']((_0x9a1c,_0x7f2e)=>{const _0x4d6b=document['\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74']('\x64\x69\x76');_0x4d6b['\x63\x6c\x61\x73\x73\x4e\x61\x6d\x65']='\x70\x72\x6f\x64\x75\x74\x6f\x2d\x69\x74\x65\x6d';_0x4d6b['\x64\x61\x74\x61\x73\x65\x74']['\x6e\x6f\x6d\x65']=_0x9a1c['\x6e\x6f\x6d\x65']['\x74\x6f\x4c\x6f\x77\x65\x72\x43\x61\x73\x65']();_0x4d6b['\x64\x61\x74\x61\x73\x65\x74']['\x6d\x61\x72\x63\x61']=_0x2a7b['\x74\x6f\x4c\x6f\x77\x65\x72\x43\x61\x73\x65']();_0x4d6b['\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c']='\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x70\x72\x6f\x64\x75\x74\x6f\x2d\x6e\x6f\x6d\x65\x22\x3e'+_0x9a1c['\x6e\x6f\x6d\x65']+'\x3c\x2f\x64\x69\x76\x3e\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x70\x72\x6f\x64\x75\x74\x6f\x2d\x69\x6e\x70\x75\x74\x22\x3e\x3c\x6c\x61\x62\x65\x6c\x3e\x51\x74\x64\x3a\x3c\x2f\x6c\x61\x62\x65\x6c\x3e\x3c\x69\x6e\x70\x75\x74\x20\x74\x79\x70\x65\x3d\x22\x6e\x75\x6d\x62\x65\x72\x22\x20\x69\x64\x3d\x22'+_0x2a7b+'\x2d'+_0x7f2e+'\x22\x20\x6d\x69\x6e\x3d\x22\x30\x22\x20\x76\x61\x6c\x75\x65\x3d\x22\x30\x22\x20\x64\x61\x74\x61\x2d\x70\x72\x65\x63\x6f\x3d\x22'+_0x9a1c['\x70\x72\x65\x63\x6f']+'\x22\x3e\x3c\x2f\x64\x69\x76\x3e';_0x3e8a['\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64'](_0x4d6b);});_0x5b2d['\x6f\x6e\x63\x6c\x69\x63\x6b']=function(){this['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x74\x6f\x67\x67\x6c\x65']('\x63\x6f\x6c\x6c\x61\x70\x73\x65\x64');_0x3e8a['\x73\x74\x79\x6c\x65']['\x64\x69\x73\x70\x6c\x61\x79']=_0x3e8a['\x73\x74\x79\x6c\x65']['\x64\x69\x73\x70\x6c\x61\x79']==='\x6e\x6f\x6e\x65'?'\x67\x72\x69\x64':'\x6e\x6f\x6e\x65';};_0x6c9f['\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64'](_0x5b2d);_0x6c9f['\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64'](_0x3e8a);_0x4f3b['\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64'](_0x6c9f);}}document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x73\x65\x61\x72\x63\x68\x49\x6e\x70\x75\x74')['\x61\x64\x64\x45\x76\x65\x6e\x74\x4c\x69\x73\x74\x65\x6e\x65\x72']('\x69\x6e\x70\x75\x74',function(_0x8b3f){const _0x6e4a=_0x8b3f['\x74\x61\x72\x67\x65\x74']['\x76\x61\x6c\x75\x65']['\x74\x6f\x4c\x6f\x77\x65\x72\x43\x61\x73\x65']();const _0x2d8c=document['\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72\x41\x6c\x6c']('\x2e\x70\x72\x6f\x64\x75\x74\x6f\x2d\x69\x74\x65\x6d');_0x2d8c['\x66\x6f\x72\x45\x61\x63\x68'](_0x1f7e=>{const _0x9c5b=_0x1f7e['\x64\x61\x74\x61\x73\x65\x74']['\x6e\x6f\x6d\x65'];const _0x3a6d=_0x1f7e['\x64\x61\x74\x61\x73\x65\x74']['\x6d\x61\x72\x63\x61'];if(_0x9c5b['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x6e4a)||_0x3a6d['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x6e4a)){_0x1f7e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x68\x69\x64\x64\x65\x6e');}else{_0x1f7e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x61\x64\x64']('\x68\x69\x64\x64\x65\x6e');}});});function _0x3a8f52(){const _0x5a3c=document['\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72\x41\x6c\x6c']('\x69\x6e\x70\x75\x74\x5b\x74\x79\x70\x65\x3d\x22\x6e\x75\x6d\x62\x65\x72\x22\x5d');let _0x8f1d=0;let _0x2e9a=0;let _0x7b4f=0;_0x5a3c['\x66\x6f\x72\x45\x61\x63\x68'](_0x4c2b=>{const _0x9d3e=parseInt(_0x4c2b['\x76\x61\x6c\x75\x65'])||0;if(_0x9d3e>0){_0x7b4f++;_0x2e9a+=_0x9d3e;const _0x6a5c=parseFloat(_0x4c2b['\x64\x61\x74\x61\x73\x65\x74']['\x70\x72\x65\x63\x6f']);_0x8f1d+=_0x9d3e*_0x6a5c;}});const _0x1b8e=document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x65\x72\x72\x6f\x56\x61\x6c\x69\x64\x61\x63\x61\x6f');const _0x4e7c=document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x72\x65\x73\x75\x6c\x74\x61\x64\x6f');const _0x3f9d=document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x6d\x65\x6e\x73\x61\x67\x65\x6d\x45\x72\x72\x6f');_0x1b8e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x73\x68\x6f\x77');_0x4e7c['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x73\x68\x6f\x77');if(_0x7b4f<3){_0x3f9d['\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c']='\x56\x6f\x63\xea\x20\x70\x72\x65\x63\x69\x73\x61\x20\x73\x65\x6c\x65\x63\x69\x6f\x6e\x61\x72\x20\x70\x65\x6c\x6f\x20\x6d\x65\x6e\x6f\x73\x20\x3c\x73\x74\x72\x6f\x6e\x67\x3e\x33\x20\x70\x72\x6f\x64\x75\x74\x6f\x73\x20\x64\x69\x66\x65\x72\x65\x6e\x74\x65\x73\x3c\x2f\x73\x74\x72\x6f\x6e\x67\x3e\x2e\x3c\x62\x72\x3e\x41\x74\x75\x61\x6c\x6d\x65\x6e\x74\x65\x20\x76\x6f\x63\xea\x20\x74\x65\x6d\x3a\x20'+_0x7b4f+'\x20\x70\x72\x6f\x64\x75\x74\x6f\x28\x73\x29\x2e';_0x1b8e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x61\x64\x64']('\x73\x68\x6f\x77');return;}if(_0x2e9a<100){_0x3f9d['\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c']='\x56\x6f\x63\xea\x20\x70\x72\x65\x63\x69\x73\x61\x20\x64\x65\x20\x70\x65\x6c\x6f\x20\x6d\x65\x6e\x6f\x73\x20\x3c\x73\x74\x72\x6f\x6e\x67\x3e\x31\x30\x30\x20\x75\x6e\x69\x64\x61\x64\x65\x73\x20\x6e\x6f\x20\x74\x6f\x74\x61\x6c\x3c\x2f\x73\x74\x72\x6f\x6e\x67\x3e\x2e\x3c\x62\x72\x3e\x41\x74\x75\x61\x6c\x6d\x65\x6e\x74\x65\x20\x76\x6f\x63\xea\x20\x74\x65\x6d\x3a\x20'+_0x2e9a+'\x20\x75\x6e\x69\x64\x61\x64\x65\x28\x73\x29\x2e';_0x1b8e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x61\x64\x64']('\x73\x68\x6f\x77');return;}_0x8f1d=Math['\x72\x6f\x75\x6e\x64'](_0x8f1d/5)*5;document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x76\x61\x6c\x6f\x72\x54\x6f\x74\x61\x6c')['\x74\x65\x78\x74\x43\x6f\x6e\x74\x65\x6e\x74']='\x52\x24\x20'+_0x8f1d['\x74\x6f\x46\x69\x78\x65\x64'](2)['\x72\x65\x70\x6c\x61\x63\x65']('\x2e','\x2c');_0x4e7c['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x61\x64\x64']('\x73\x68\x6f\x77');}function _0x4b9e63(){const _0x5a3c=document['\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72\x41\x6c\x6c']('\x69\x6e\x70\x75\x74\x5b\x74\x79\x70\x65\x3d\x22\x6e\x75\x6d\x62\x65\x72\x22\x5d');_0x5a3c['\x66\x6f\x72\x45\x61\x63\x68'](_0x4c2b=>_0x4c2b['\x76\x61\x6c\x75\x65']=0);document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x72\x65\x73\x75\x6c\x74\x61\x64\x6f')['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x73\x68\x6f\x77');document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x65\x72\x72\x6f\x56\x61\x6c\x69\x64\x61\x63\x61\x6f')['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x73\x68\x6f\x77');document['\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64']('\x73\x65\x61\x72\x63\x68\x49\x6e\x70\x75\x74')['\x76\x61\x6c\x75\x65']='';const _0x2d8c=document['\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72\x41\x6c\x6c']('\x2e\x70\x72\x6f\x64\x75\x74\x6f\x2d\x69\x74\x65\x6d');_0x2d8c['\x66\x6f\x72\x45\x61\x63\x68'](_0x1f7e=>_0x1f7e['\x63\x6c\x61\x73\x73\x4c\x69\x73\x74']['\x72\x65\x6d\x6f\x76\x65']('\x68\x69\x64\x64\x65\x6e'));}_0x1c4e5a();
     </script>
 </body>
 </html>
