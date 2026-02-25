@@ -27,23 +27,31 @@
             padding: 30px;
         }
         
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
         .logo {
-            width: 120px;
-            display: block;
-            margin: 0 auto 20px;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
         }
         
         h1 {
-            text-align: center;
             color: #667eea;
-            margin-bottom: 10px;
             font-size: 28px;
+            margin: 0;
         }
         
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 14px;
         }
         
@@ -52,19 +60,24 @@
             border: 2px solid #ffc107;
             border-radius: 10px;
             padding: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
         }
         
-        .aviso-icon {
-            font-size: 24px;
+        .aviso-titulo {
+            color: #856404;
+            font-weight: bold;
+            font-size: 16px;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .aviso-texto {
             color: #856404;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
             line-height: 1.5;
         }
         
@@ -262,17 +275,18 @@
 </head>
 <body>
     <div class="container">
-       <img src="logo.png" alt="Logo" class="logo">
-        
-        <h1> Calculadora de Vendas</h1>
+        <div class="header-container">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1> Calculadora de Vendas</h1>
+        </div>
         <p class="subtitle">Digite as quantidades vendidas e calcule o total</p>
         
         <div class="aviso">
-            <div class="aviso-icon">⚠️</div>
+            <div class="aviso-titulo">
+                ⚠️ ATENÇÃO: Esta calculadora NÃO salva suas vendas!
+            </div>
             <div class="aviso-texto">
-                ATENÇÃO: Esta calculadora NÃO salva suas vendas!<br>
-                Você precisa preencher todas as quantidades toda vez que usar.<br>
-                Anote os valores antes de sair da página.
+                Você precisa preencher todas as quantidades toda vez que usar. Anote os valores antes de sair da página.
             </div>
         </div>
         
@@ -294,101 +308,102 @@
     <script>
         const produtos = {
             "DABELLE": [
-                { nome: "DABELLE ATIVADOR DE CACHOS 270", preco: 12.81 },
-                { nome: "DABELLE BOOSTER 60ML", preco: 19.06 },
-                { nome: "DABELLE CARTUCHO OLEO 45ML", preco: 17.31 },
-                { nome: "DABELLE CONDICIONADOR 200ML", preco: 9.11 },
-                { nome: "DABELLE CPP 1KG", preco: 20.56 },
-                { nome: "DABELLE CREME DE PENTEAR 270G", preco: 11.36 },
-                { nome: "DABELLE CREME DE PENTEAR 550G", preco: 16.98 },
-                { nome: "DABELLE EFEITO TEIA", preco: 24.62 },
-                { nome: "DABELLE FLUIDO SELANTE 180ML", preco: 19.62 },
-                { nome: "DABELLE GEL LIQUIDO 270ML", preco: 10.62 },
-                { nome: "DABELLE GELATINA 400G", preco: 12.87 },
-                { nome: "DABELLE GELATINA 500G", preco: 14.94 },
-                { nome: "DABELLE GELATINA 800G", preco: 18.69 },
-                { nome: "DABELLE GELATINA ULTRA 400G", preco: 12.87 },
-                { nome: "DABELLE KIT MASCARA CRONO", preco: 31.19 },
-                { nome: "DABELLE KIT SH+COND 425ML", preco: 15.73 },
-                { nome: "DABELLE KIT SH+COND 550ML", preco: 18.37 },
-                { nome: "DABELLE MASCARA 400G", preco: 13.06 },
-                { nome: "DABELLE MASCARA 800G", preco: 17.65 },
-                { nome: "DABELLE MASCARA KIT", preco: 41.68 },
-                { nome: "DABELLE MASCARA LIQUIDA 200ML", preco: 28.06 },
-                { nome: "DABELLE MODELADOR 270G", preco: 17.43 },
-                { nome: "DABELLE OLEO 45ML", preco: 17.31 },
-                { nome: "DABELLE OLEO 75ML", preco: 22.74 },
-                { nome: "DABELLE OLEO EM CREME 190ML", preco: 16.34 },
-                { nome: "DABELLE OLEO UMECTACAO 75ml", preco: 14.06 },
-                { nome: "DABELLE POTENCIALIZADOR 30ML", preco: 19.06 },
-                { nome: "DABELLE SELANTE 200ml", preco: 26.62 },
-                { nome: "DABELLE SERUM 75ML", preco: 24.06 },
-                { nome: "DABELLE SHAMPOO 250ML", preco: 8.37 },
-                { nome: "DABELLE SHAMPOO 375ML", preco: 11.31 },
-                { nome: "DABELLE SHAMPOO 410ML", preco: 11.31 },
-                { nome: "DABELLE SPRAY 200 ML REVITALIZANTE", preco: 20.68 },
-                { nome: "DABELLE TONICO 100ML", preco: 10.81 },
-                { nome: "KIT OLEO CREME + SH 290ML", preco: 16.34 }
+                { nome: "DABELLE - ATIVADOR DE CACHOS - 270G", preco: 12.81 },
+                { nome: "DABELLE - KIT OLEOS - 135ML", preco: 37.44 },
+                { nome: "DABELLE - OLEO CACHOS - 75ML", preco: 14.06 },
+                { nome: "DABELLE - CONDICIONADOR - 200ML", preco: 9.11 },
+                { nome: "DABELLE - CPP JUJUBA - 1KG", preco: 20.56 },
+                { nome: "DABELLE - CREME DE PENTEAR - 270G", preco: 11.36 },
+                { nome: "DABELLE - CREME DE PENTEAR - 550G", preco: 16.98 },
+                { nome: "DABELLE - EFEITO TEIA - 140G", preco: 24.62 },
+                { nome: "DABELLE - FLUIDO - 180ML", preco: 19.62 },
+                { nome: "DABELLE - GEL LIQUIDO - 270ML", preco: 10.62 },
+                { nome: "DABELLE - GELATINA - 400G", preco: 12.87 },
+                { nome: "DABELLE - GELATINA - 500G", preco: 14.94 },
+                { nome: "DABELLE - GELATINA - 800G", preco: 18.69 },
+                { nome: "DABELLE - MASCARA CRONO - 400G", preco: 15.49 },
+                { nome: "DABELLE - KIT MASCARAS - 1200G", preco: 31.19 },
+                { nome: "DABELLE - KIT SH+COND - 425ML", preco: 15.73 },
+                { nome: "DABELLE - KIT SH+COND - 585ML", preco: 18.37 },
+                { nome: "DABELLE - MASCARA - 400G", preco: 13.06 },
+                { nome: "DABELLE - MASCARA - 800G", preco: 17.65 },
+                { nome: "DABELLE - KIT ESPECIAL BRILHO - 546G", preco: 41.68 },
+                { nome: "DABELLE - MASCARA LIQUIDA - 200ML", preco: 28.06 },
+                { nome: "DABELLE - MODELADOR - 270G", preco: 17.43 },
+                { nome: "DABELLE - OLEO - 45ML", preco: 17.31 },
+                { nome: "DABELLE - OLEO - 75ML", preco: 22.74 },
+                { nome: "DABELLE - OLEO EM CREME - 190ML", preco: 16.34 },
+                { nome: "DABELLE - OLEO CACHOS - 75ML", preco: 14.06 },
+                { nome: "DABELLE - POTENCIALIZADOR - 30ML", preco: 19.06 },
+                { nome: "DABELLE - SPRAY FINALIZADOR - 200ML", preco: 26.62 },
+                { nome: "DABELLE - SERUM - 75ML", preco: 24.06 },
+                { nome: "DABELLE - SHAMPOO - 250ML", preco: 8.37 },
+                { nome: "DABELLE - PROTEINA LIQUIDA - 75ML", preco: 15.12 },
+                { nome: "DABELLE - SHAMPOO - 410ML", preco: 11.31 },
+                { nome: "DABELLE - SPRAY CACHOS - 200ML", preco: 20.68 },
+                { nome: "DABELLE - TONICO CAPILAR - 100ML", preco: 10.81 },
+                { nome: "DABELLE - KIT SH+OLEO EM CREME - 290ML", preco: 16.34 },
+                { nome: "DABELLE - SPRAY FINALIZADOR - 180ML", preco: 19.62 }
             ],
             "DABELLE BEAUTY": [
-                { nome: "LIP BALM", preco: 21.63 }
+                { nome: "DABELLE BEAUTY - LIP BALM", preco: 18.69 }
             ],
             "EICO": [
-                { nome: "ACIDIFICANTE 200ML", preco: 17.12 },
-                { nome: "CONDICIONADOR 450ML", preco: 12.48 },
-                { nome: "CONDICIONADOR 515ML", preco: 22.52 },
-                { nome: "CONDICIONADOR 800ML", preco: 25.58 },
-                { nome: "CPP 500ML", preco: 20.40 },
-                { nome: "CPP 600ML", preco: 20.56 },
-                { nome: "FLUIDO 200ML", preco: 28.06 },
-                { nome: "GELEIA 200ML", preco: 17.12 },
-                { nome: "KIT 3 MASCARAS 810G", preco: 37.74 },
-                { nome: "KIT SH 800ML + COND 450ML", preco: 28.32 },
-                { nome: "KIT SH+COND 1550ML", preco: 28.32 },
-                { nome: "KIT SH+COND 450ML", preco: 23.34 },
-                { nome: "KIT SH+COND 800ML", preco: 28.32 },
-                { nome: "KIT SH+COND 850ML", preco: 19.29 },
-                { nome: "KIT TRAT + FLUIDO 840ML", preco: 34.31 },
-                { nome: "LEAVE-IN 200ML", preco: 21.93 },
-                { nome: "MANTEIGA NUTRITIVA 180ML", preco: 17.12 },
-                { nome: "MASCARA 1KG", preco: 28.52 },
-                { nome: "MASCARA 270G", preco: 13.68 },
-                { nome: "MASCARA 500G", preco: 19.94 },
-                { nome: "MASCARA LIQUIDA 200ML", preco: 37.44 },
-                { nome: "MEGA DOSE 45ML", preco: 7.14 },
-                { nome: "MODELADOR CACHOS 25OML", preco: 22.62 },
-                { nome: "OLEO 100ML", preco: 40.56 },
-                { nome: "OLEO EM CREME 190ML", preco: 21.81 },
-                { nome: "OLEO REPARADOR 60ML", preco: 23.99 },
-                { nome: "OLEO REPARADOR 7ML", preco: 5.43 },
-                { nome: "SACHE 40G", preco: 3.43 },
-                { nome: "SEIVA 200ML", preco: 25.37 },
-                { nome: "SHAMPOO 450ML", preco: 12.48 },
-                { nome: "SHAMPOO 515ML", preco: 22.52 },
-                { nome: "SHAMPOO 800ML", preco: 28.32 },
-                { nome: "SPRAY 120ML", preco: 18.49 },
-                { nome: "TONICO 120ML", preco: 17.12 }
+                { nome: "EICO - ACIDIFICANTE - 180ML", preco: 17.12 },
+                { nome: "EICO - CONDICIONADOR - 450ML", preco: 13.50 },
+                { nome: "EICO - CONDICIONADOR - 800ML", preco: 25.58 },
+                { nome: "EICO - CREME DE PENTEAR - 600ML", preco: 20.56 },
+                { nome: "EICO - FINALIZADOR - 200ML", preco: 25.37 },
+                { nome: "EICO - GELATINA - 200ML", preco: 17.12 },
+                { nome: "EICO - KIT MASCARAS - 810G", preco: 37.74 },
+                { nome: "EICO - KIT SH+COND - 1250ML", preco: 29.90 },
+                { nome: "EICO - KIT SH+COND - 1550ML", preco: 28.32 },
+                { nome: "EICO - KIT SH+COND - 850ML", preco: 23.34 },
+                { nome: "EICO - KIT SH+PÓS TRATAMENTO - 840ML", preco: 34.31 },
+                { nome: "EICO - LEAVE IN - 200ML", preco: 21.93 },
+                { nome: "EICO - MANTEIGA - 180ML", preco: 17.12 },
+                { nome: "EICO - MASCARA - 1KG", preco: 28.52 },
+                { nome: "EICO - MASCARA - 270G", preco: 13.68 },
+                { nome: "EICO - MEGA DOSE - 45ML", preco: 7.14 },
+                { nome: "EICO - MODELADOR - 250ML", preco: 22.62 },
+                { nome: "EICO - OLEO - 60ML", preco: 23.99 },
+                { nome: "EICO - OLEO - 7ML", preco: 5.43 },
+                { nome: "EICO - SACHE DE HIDRATACAO - 40G", preco: 3.43 },
+                { nome: "EICO - SHAMPOO - 450ML", preco: 13.50 },
+                { nome: "EICO - SHAMPOO - 800ML", preco: 25.58 },
+                { nome: "EICO - SPRAY FINALIZADOR - 120ML", preco: 18.49 },
+                { nome: "EICO - TONICO CAPILAR - 120ML", preco: 17.12 }
             ],
             "EICO PRO": [
-                { nome: "ACIDIFICANTE 190ML", preco: 31.19 },
-                { nome: "BOOSTER 30ML", preco: 20.56 },
-                { nome: "CONDICIONADOR 300ML", preco: 24.94 },
-                { nome: "EFEITO TEIA 190ML", preco: 31.19 },
-                { nome: "FLUIDO 200ML", preco: 28.06 },
-                { nome: "GELÉIA 190ML", preco: 31.19 },
-                { nome: "KIT ESPECIAL", preco: 62.44 },
-                { nome: "KIT HYDRATION SYSTEM 400ML", preco: 62.44 },
-                { nome: "KIT SH+MASC 600ML", preco: 40.56 },
-                { nome: "LEAVE-IN 200ML", preco: 21.93 },
-                { nome: "LEAVE-IN 500ML", preco: 33.06 },
-                { nome: "MÁSCARA 300G", preco: 31.19 },
-                { nome: "MASCARA LIQUIDA 200ML", preco: 37.44 },
-                { nome: "MODELADOR 250ML", preco: 33.06 },
-                { nome: "OLEO 100ML", preco: 40.56 },
-                { nome: "OLEO 30ML", preco: 24.94 },
-                { nome: "SÉRUM 100ML", preco: 37.44 },
-                { nome: "SHAMPOO 300ML", preco: 24.94 },
-                { nome: "TÔNICO 100ML", preco: 31.19 }
+                { nome: "EICO PRO - KIT - 700ML", preco: 62.44 },
+                { nome: "EICO PRO - SHAMPOO - 300ML", preco: 24.94 },
+                { nome: "EICO PRO - CONDICIONADOR - 300ML", preco: 24.94 },
+                { nome: "EICO PRO - MASCARA - 300G", preco: 31.19 },
+                { nome: "EICO PRO - FLUIDO - 200ML", preco: 28.06 },
+                { nome: "EICO PRO - LEAVE IN - 200ML", preco: 31.19 },
+                { nome: "EICO PRO - LEAVE IN - 500ML", preco: 33.06 },
+                { nome: "EICO PRO - SERUM - 100ML", preco: 37.44 },
+                { nome: "EICO PRO - BOOSTER - 30ML", preco: 20.56 },
+                { nome: "EICO PRO - MODELADOR - 250ML", preco: 33.06 },
+                { nome: "EICO PRO - GELATINA - 190ML", preco: 31.19 },
+                { nome: "EICO PRO - OLEO - 100ML", preco: 40.56 },
+                { nome: "EICO PRO - OLEO - 30ML", preco: 24.94 },
+                { nome: "EICO PRO - ACIDIFICANTE - 190ML", preco: 31.19 },
+                { nome: "EICO PRO - EFEITO TEIA - 190ML", preco: 31.19 },
+                { nome: "EICO PRO - TONICO CAPILAR - 100ML", preco: 31.19 },
+                { nome: "EICO PRO - HYDRATION - 400ML", preco: 62.44 },
+                { nome: "EICO PRO - MASCARA LIQUIDA - 200ML", preco: 37.44 },
+                { nome: "EICO PRO - KIT SH+MASC - 600ML", preco: 40.56 }
+            ],
+            "TOQUE FINAL": [
+                { nome: "EICO TOQUE FINAL - OLEO - 100ML", preco: 28.69 },
+                { nome: "EICO TOQUE FINAL - CPP - 500ML", preco: 20.40 },
+                { nome: "EICO TOQUE FINAL - FLUIDO - 200ML", preco: 20.56 },
+                { nome: "EICO TOQUE FINAL - MASCARA - 500G", preco: 24.94 },
+                { nome: "EICO TOQUE FINAL - MASCARA LIQUIDA - 200ML", preco: 33.06 },
+                { nome: "EICO TOQUE FINAL - OLEO EM CREME - 190ML", preco: 21.81 },
+                { nome: "EICO TOQUE FINAL - CONDICIONADOR - 515ML", preco: 22.52 },
+                { nome: "EICO TOQUE FINAL - SHAMPOO - 515ML", preco: 22.52 }
             ]
         };
 
