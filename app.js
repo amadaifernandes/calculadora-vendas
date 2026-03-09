@@ -75,8 +75,8 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-
-    total = Math.round(total / 5) * 5;
+    //! Comentando arredondamento para 5 reais por enquanto, pois o cliente pediu orçamento com preços exatos. Se for necessário, é só descomentar a linha abaixo.
+    // total = Math.round(total / 5) * 5;
     document.getElementById('valorTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
