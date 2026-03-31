@@ -118,37 +118,3 @@ async function init() {
 }
 
 init();
-
-// Anti-screenshot
-(function () {
-    const overlay = document.getElementById('antiScreenshot');
-
-    function escurecer() {
-        overlay.style.display = 'block';
-        document.body.style.filter = 'brightness(0)';
-    }
-    function clarear() {
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            document.body.style.filter = '';
-        }, 400);
-    }
-
-    document.addEventListener('keyup', function (e) {
-        if (e.key === 'PrintScreen') {
-            escurecer(); clarear();
-            try { navigator.clipboard.writeText(''); } catch (e) { }
-        }
-    });
-    document.addEventListener('keydown', function (e) {
-        if (e.ctrlKey && e.key === 'p') e.preventDefault();
-    });
-    document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'hidden') escurecer(); else clarear();
-    });
-    window.addEventListener('blur', escurecer);
-    window.addEventListener('focus', clarear);
-
-    document.body.style.webkitUserSelect = 'none';
-    document.body.style.userSelect = 'none';
-})();
