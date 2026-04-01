@@ -54,11 +54,9 @@ function calcular() {
         if (qty > 0) {
             count++;
             units += qty;
-            const preco=prices[parseInt(input.dataset.idx)]
+            const preco = prices[parseInt(input.dataset.idx)]
             const subtotal = qty * preco;
-            
-//Arredondamentos por item (igual excel)
-            total += Number(subtotal.toFixed(2));
+            total += qty * _prices[parseInt(input.dataset.idx)];
             
             //total += qty * _prices[parseInt(input.dataset.idx)];
         }
