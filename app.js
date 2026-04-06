@@ -1,4 +1,4 @@
-const CACHE_KEY = 'vd_cache_v2';
+const CACHE_KEY = 'vd_cache_v3';
 const DATA_URL = 'data.duty';
 
 // Preços carregados em memória — nunca expostos no DOM
@@ -54,11 +54,7 @@ function calcular() {
         if (qty > 0) {
             count++;
             units += qty;
-            const preco = prices[parseInt(input.dataset.idx)]
-            const subtotal = qty * preco;
             total += qty * _prices[parseInt(input.dataset.idx)];
-            
-            //total += qty * _prices[parseInt(input.dataset.idx)];
         }
     });
 
