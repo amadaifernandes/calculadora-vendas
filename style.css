@@ -34,8 +34,7 @@ body {
     padding: 20px 18px 30px 18px;
     background: white;
     min-height: 100vh;
-      /* ... tudo que já tem ... */
-    overflow: hidden;
+    overflow-x: hidden;  /* ← só bloqueia horizontal */
 }
 
 /* ===== HEADER ===== */
