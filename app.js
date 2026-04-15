@@ -47,14 +47,14 @@ function renderProducts(marcas) {
 
 function calcular() {
     const inputs = document.querySelectorAll('.produto-qty');
-    let total = 0, units = 0, count = 0;
+   let total = 0, units = 0, count = 0;  // ← variável continua igual
 
     inputs.forEach(input => {
         const qty = parseInt(input.value) || 0;
         if (qty > 0) {
             count++;
             units += qty;
-            total += qty * _prices[parseInt(input.dataset.idx)];
+            total += qty * _prices[parseInt(input.dataset.idx)];  // ← linha continua igual
         }
     });
 
@@ -75,9 +75,7 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-    //! Comentando arredondamento para 5 reais por enquanto, pois o cliente pediu orçamento com preços exatos. Se for necessário, é só descomentar a linha abaixo.
-    // total = Math.round(total / 5) * 5;
-    document.getElementById('valorTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
 
@@ -103,7 +101,7 @@ async function init() {
     const { marcas } = await loadData();
 
     // Popula array de preços em memória na mesma ordem que os inputs serão renderizados
-    _prices = marcas.flatMap(marca => marca.produtos.map(p => p.preco));
+    _prices = marcas.flatMap(marca => marca.produtos.map(p => Math.round(p.preco*100)));
 
     renderProducts(marcas);
 
