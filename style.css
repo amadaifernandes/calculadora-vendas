@@ -178,7 +178,8 @@ body {
 .produto-qty {
     flex: 1;
     padding: 14px;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: bold;
     border-radius: var(--radius-md);
     border: 2px solid #ddd;
     text-align: center;
