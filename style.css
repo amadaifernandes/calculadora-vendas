@@ -1,7 +1,7 @@
 /* ===== VARIÁVEIS ===== */
 :root {
-    --cor-primaria:    #667eea;
-    --cor-secundaria:  #764ba2;
+    --cor-primaria:    #0F172A;
+    --cor-secundaria:  #7b287d;
     --gradiente-marca: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
     --cor-erro:        #ff6b6b;
     --cor-aviso:       #856404;
@@ -174,7 +174,7 @@ body {
 .produto-qty {
     flex: 1;
     padding: 14px;
-    font-size: 18px;
+    font-size: 20px;
     border-radius: var(--radius-md);
     border: 2px solid #ddd;
     text-align: center;
