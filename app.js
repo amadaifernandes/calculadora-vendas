@@ -54,7 +54,8 @@ function calcular() {
         if (qty > 0) {
             count++;
             units += qty;
-            total += qty * _prices[parseInt(input.dataset.idx)];  // ← linha continua igual
+             // Multiplica o preço real pela quantidade
+            total += qty * _prices[parseInt(input.dataset.idx)];
         }
     });
 
@@ -75,7 +76,11 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
+// A MÁGICA ESTÁ AQUI:
+    // Arredondamos o valor final para 2 casas decimais, igual ao Excel faz visualmente
+    const valorFormatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    
+    document.getElementById('valorTotal').textContent = valorFormatado;
     resEl.classList.add('show');
 }
 
@@ -101,7 +106,7 @@ async function init() {
     const { marcas } = await loadData();
 
     // Popula array de preços em memória na mesma ordem que os inputs serão renderizados
-    _prices = marcas.flatMap(marca => marca.produtos.map(p => Math.round(p.preco*100)));
+    _prices = marcas.flatMap(marca => marca.produtos.map(p => p.preco));
 
     renderProducts(marcas);
 
