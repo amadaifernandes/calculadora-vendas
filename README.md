@@ -7,8 +7,6 @@ Calculadora de vendas para equipe — permite digitar quantidades vendidas por p
 - Produtos organizados por marca com seções recolhíveis
 - Busca de produto por nome ou marca
 - Validação de pedido mínimo (3 produtos diferentes e 100 unidades no total)
-- Total arredondado para referência de valor aproximado
-- Proteção contra captura de tela
 
 ## Acesso
 
