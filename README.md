@@ -15,5 +15,3 @@ O site está disponível via GitHub Pages. Nenhuma instalação é necessária �
 ## Atualização dos dados
 
 Os dados de produtos estão codificados em `data.duty`. Para atualizar preços ou adicionar produtos, edite o script e gere um novo `data.duty`.
-
-Amadai procure o Caio para mais detalhes sobre o processo de atualização.
