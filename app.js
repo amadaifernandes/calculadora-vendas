@@ -1,15 +1,11 @@
-// --- CONFIGURAÇÕES ---
 const CACHE_KEY = 'vd_cache_v5';
 const DATA_URL = 'data.duty';
 
-// Preços carregados em memória
+// Preços carregados em memória — nunca expostos no DOM
 let _prices = [];
 
-// --- FUNÇÃO: MOSTRAR PRODUTOS NA TELA ---
 function renderProducts(marcas) {
     const container = document.getElementById('produtos-container');
-    if (!container) return; // Segurança caso o HTML não tenha o container
-    
     container.innerHTML = '';
     let idx = 0;
 
@@ -49,40 +45,26 @@ function renderProducts(marcas) {
     }
 }
 
-// --- FUNÇÃO: CALCULAR O TOTAL (CORRIGIDA PARA BATER COM EXCEL) ---
 function calcular() {
     const inputs = document.querySelectorAll('.produto-qty');
-    let totalFinal = 0;
-    let units = 0;
-    let count = 0;
+   let total = 0, units = 0, count = 0;  // ← variável continua igual
 
     inputs.forEach(input => {
         const qty = parseInt(input.value) || 0;
         if (qty > 0) {
             count++;
             units += qty;
-            
-            // Pega o preço original sem arredondar
-            const precoUnitario = _prices[parseInt(input.dataset.idx)];
-            
-            // Calcula o subtotal da linha e arredonda para o centavo mais próximo
-            // Isso simula o comportamento do Excel de somar valores monetários
-            const subtotalLinha = Math.round((qty * precoUnitario) * 100) / 100;
-            
-            totalFinal += subtotalLinha;
+            total += qty * _prices[parseInt(input.dataset.idx)];  // ← linha continua igual
         }
     });
 
     const errEl = document.getElementById('erroValidacao');
     const resEl = document.getElementById('resultado');
     const msgEl = document.getElementById('mensagemErro');
-    const displayTotal = document.getElementById('valorTotal');
 
-    // Reset de mensagens
     errEl.classList.remove('show');
     resEl.classList.remove('show');
 
-    // Validações
     if (count < 3) {
         msgEl.innerHTML = `Você precisa selecionar pelo menos <strong>3 produtos diferentes</strong>.<br>Atualmente você tem: ${count} produto(s).`;
         errEl.classList.add('show');
@@ -93,26 +75,18 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-
-    // Exibe o resultado formatado como dinheiro (R$ 1.234,56)
-    displayTotal.textContent = totalFinal.toLocaleString('pt-BR', { 
-        style: 'currency', 
-        currency: 'BRL' 
-    });
-    
+    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
 
-// --- FUNÇÃO: LIMPAR TUDO ---
 function limpar() {
-    document.querySelectorAll('.produto-qty').forEach(i => i.value = '');
+    document.querySelectorAll('.produto-qty').forEach(i => i.value = 0);
     document.getElementById('resultado').classList.remove('show');
     document.getElementById('erroValidacao').classList.remove('show');
     document.getElementById('searchInput').value = '';
     document.querySelectorAll('.produto-item').forEach(i => i.classList.remove('hidden'));
 }
 
-// --- FUNÇÃO: CARREGAR DADOS DO ARQUIVO ---
 async function loadData() {
     let raw = sessionStorage.getItem(CACHE_KEY);
     if (!raw) {
@@ -123,31 +97,22 @@ async function loadData() {
     return JSON.parse(atob(raw));
 }
 
-// --- FUNÇÃO: INICIAR TUDO ---
 async function init() {
-    try {
-        const { marcas } = await loadData();
+    const { marcas } = await loadData();
 
-        // Carrega os preços garantindo que sejam números decimais puros
-        _prices = marcas.flatMap(marca => marca.produtos.map(p => parseFloat(p.preco)));
+    // Popula array de preços em memória na mesma ordem que os inputs serão renderizados
+    _prices = marcas.flatMap(marca => marca.produtos.map(p => Math.round(p.preco*100)));
 
-        // Desenha os produtos na tela
-        renderProducts(marcas);
+    renderProducts(marcas);
 
-        // Configura a busca
-        document.getElementById('searchInput').addEventListener('input', function (e) {
-            const term = e.target.value.toLowerCase();
-            document.querySelectorAll('.produto-item').forEach(item => {
-                item.classList.toggle('hidden',
-                    !item.dataset.nome.includes(term) && !item.dataset.marca.includes(term)
-                );
-            });
+    document.getElementById('searchInput').addEventListener('input', function (e) {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.produto-item').forEach(item => {
+            item.classList.toggle('hidden',
+                !item.dataset.nome.includes(term) && !item.dataset.marca.includes(term)
+            );
         });
-    } catch (error) {
-        console.error("Erro ao iniciar o sistema:", error);
-        alert("Erro ao carregar os dados. Verifique o console.");
-    }
+    });
 }
 
-// --- EXECUÇÃO ---
 init();
