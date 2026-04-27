@@ -1,4 +1,4 @@
-const CACHE_KEY = 'vd_cache_v6';
+const CACHE_KEY = 'vd_cache_v5';
 const DATA_URL = 'data.duty';
 
 // Preços carregados em memória — nunca expostos no DOM
@@ -75,7 +75,7 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
+    document.getElementById('valorTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
 
@@ -100,8 +100,10 @@ async function loadData() {
 async function init() {
     const { marcas } = await loadData();
 
-    // Popula array de preços em memória na mesma ordem que os inputs serão renderizados
-    _prices = marcas.flatMap(marca => marca.produtos.map(p => Math.round(p.preco*100)));
+    // Popula array de preços em memória na mesma ordem que os inputs serão renderizados.
+    // Mantemos o preço em float (pode ter mais de 2 casas decimais, ex.: 12.80625) —
+    // arredondamos só no total para casar com o cálculo do Excel.
+    _prices = marcas.flatMap(marca => marca.produtos.map(p => p.preco));
 
     renderProducts(marcas);
 
