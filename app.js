@@ -1,4 +1,4 @@
-const CACHE_KEY = 'vd_cache_v5';
+const CACHE_KEY = 'vd_cache_v6';
 const DATA_URL = 'data.duty';
 
 // Preços carregados em memória — nunca expostos no DOM

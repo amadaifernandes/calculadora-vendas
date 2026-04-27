@@ -2,3 +2,8 @@ CLAUDE.md
 *.py
 *.json
 *.csv
+*.xlsx
+*.yaml
+node_modules/
+dist/
+build/
