@@ -47,15 +47,24 @@ function renderProducts(marcas) {
 
 function calcular() {
     const inputs = document.querySelectorAll('.produto-qty');
-   let total = 0, units = 0, count = 0;  // ← variável continua igual
+    let totalFinal = 0; 
+    let units = 0;
+    let count = 0;
 
-    inputs.forEach(input => {
+ inputs.forEach(input => {
         const qty = parseInt(input.value) || 0;
         if (qty > 0) {
             count++;
             units += qty;
-             // Multiplica o preço real pela quantidade
-            total += qty * _prices[parseInt(input.dataset.idx)];
+
+            // 1. Pegamos o preço bruto (sem arredondar nada!)
+            const precoUnitario = _prices[parseInt(input.dataset.idx)];
+            
+            // 2. Calculamos o subtotal desta linha
+            // 3. Arredondamos o resultado DA LINHA para 2 casas (exatamente como o Excel)
+            const subtotalLinha = Math.round((qty * precoUnitario) * 100) / 100;
+            
+            totalFinal += subtotalLinha;
         }
     });
 
@@ -66,6 +75,7 @@ function calcular() {
     errEl.classList.remove('show');
     resEl.classList.remove('show');
 
+    // Validações de quantidade e unidades
     if (count < 3) {
         msgEl.innerHTML = `Você precisa selecionar pelo menos <strong>3 produtos diferentes</strong>.<br>Atualmente você tem: ${count} produto(s).`;
         errEl.classList.add('show');
@@ -76,11 +86,12 @@ function calcular() {
         errEl.classList.add('show');
         return;
     }
-// A MÁGICA ESTÁ AQUI:
-    // Arredondamos o valor final para 2 casas decimais, igual ao Excel faz visualmente
-    const valorFormatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    // Exibição do resultado formatado
+    document.getElementById('valorTotal').textContent = totalFinal.toLocaleString('pt-BR', { 
+        style: 'currency', 
+        currency: 'BRL' 
+    });
     
-    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
 
