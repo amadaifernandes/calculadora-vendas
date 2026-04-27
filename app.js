@@ -80,7 +80,7 @@ function calcular() {
     // Arredondamos o valor final para 2 casas decimais, igual ao Excel faz visualmente
     const valorFormatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     
-    document.getElementById('valorTotal').textContent = valorFormatado;
+    document.getElementById('valorTotal').textContent = 'R$ ' + (total / 100).toFixed(2).replace('.', ',');
     resEl.classList.add('show');
 }
 
@@ -106,7 +106,7 @@ async function init() {
     const { marcas } = await loadData();
 
     // Popula array de preços em memória na mesma ordem que os inputs serão renderizados
-    _prices = marcas.flatMap(marca => marca.produtos.map(p => p.preco));
+    _prices = marcas.flatMap(marca => marca.produtos.map(p => Math.round(p.preco * 100)));
 
     renderProducts(marcas);
 
