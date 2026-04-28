@@ -47,14 +47,14 @@ function renderProducts(marcas) {
 
 function calcular() {
     const inputs = document.querySelectorAll('.produto-qty');
-   let total = 0, units = 0, count = 0;  // ← variável continua igual
+    let total = 0, units = 0, count = 0;
 
     inputs.forEach(input => {
         const qty = parseInt(input.value) || 0;
         if (qty > 0) {
             count++;
             units += qty;
-            total += qty * _prices[parseInt(input.dataset.idx)];  // ← linha continua igual
+            total += qty * _prices[parseInt(input.dataset.idx)];
         }
     });
 
@@ -76,11 +76,13 @@ function calcular() {
         return;
     }
     document.getElementById('valorTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+    document.getElementById('totalPecas').textContent = `Total de peças: ${units}`;
     resEl.classList.add('show');
 }
 
 function limpar() {
     document.querySelectorAll('.produto-qty').forEach(i => i.value = 0);
+    document.getElementById('totalPecas').textContent = 'Total de peças: 0';
     document.getElementById('resultado').classList.remove('show');
     document.getElementById('erroValidacao').classList.remove('show');
     document.getElementById('searchInput').value = '';

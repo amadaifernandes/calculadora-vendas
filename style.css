@@ -265,6 +265,13 @@ body {
     margin-top: 8px;
 }
 
+.resultado-pecas {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 8px;
+}
+
 .resultado .aproximado {
     font-size: 13px;
     color: rgba(255,255,255,0.9);
