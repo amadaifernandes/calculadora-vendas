@@ -14,13 +14,13 @@ O site está disponível via GitHub Pages. Nenhuma instalação é necessária �
 
 ## Atualização dos dados
 
-Os dados de produtos ficam codificados em `data.duty` (base64 de JSON). Para atualizar preços, produtos ou marcas, gere novamente esse arquivo a partir da planilha Excel com o script `build-data.js`.
+Os dados de produtos ficam codificados em `data.duty` (base de JSON). Para atualizar preços, produtos ou marcas, gere novamente esse arquivo a partir da planilha Excel com o script `build-data.js`.
 
 ### O que o script entrega
 
 A saída padrão é o próprio `data.duty`, no formato esperado pelo frontend:
 
-- `base64(JSON.stringify({ marcas: [...] }))`
+- `base(JSON.stringify({ marcas: [...] }))`
 - consumo no app via `JSON.parse(atob(raw))`
 
 Opcionalmente, você pode gerar também um JSON legível para inspeção/diff.
