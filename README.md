@@ -20,7 +20,7 @@ Os dados de produtos ficam codificados em `data.duty` (base64 de JSON). Para atu
 
 A saída padrão é o próprio `data.duty`, no formato esperado pelo frontend:
 
-- `base64(JSON.stringify({ marcas: [...] }))`
+- `base(JSON.stringify({ marcas: [...] }))`
 - consumo no app via `JSON.parse(atob(raw))`
 
 Opcionalmente, você pode gerar também um JSON legível para inspeção/diff.
