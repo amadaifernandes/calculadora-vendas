@@ -12,6 +12,17 @@ Calculadora de vendas para equipe — permite digitar quantidades vendidas por p
 
 O site está disponível via GitHub Pages. Nenhuma instalação é necessária — basta acessar pelo browser.
 
+## Desenvolvimento local
+
+Para rodar localmente com recarregamento automático, use o servidor de desenvolvimento do webpack:
+
+```bash
+npm install
+npm run dev
+```
+
+O site ficará disponível em `http://localhost:8080`.
+
 ## Atualização dos dados
 
 Os dados de produtos ficam codificados em `data.duty` (base de JSON). Para atualizar preços, produtos ou marcas, gere novamente esse arquivo a partir da planilha Excel com o script `build-data.js`.
@@ -31,6 +42,9 @@ Opcionalmente, você pode gerar também um JSON legível para inspeção/diff.
 npm install                                    # primeira vez
 node build-data.js BASE.xlsx                  # gera data.duty
 node build-data.js BASE.xlsx data.duty --json # gera também data.json para inspeção
+git add data.duty app.js                      # inclua app.js se houve bump de CACHE_KEY
+git commit -m "Atualiza base de produtos (data.duty)"
+git push origin main
 ```
 
 Quando rodar com o `.xlsx` real (com fórmulas), os preços saem com precisão completa (ex.: `12.80625` em vez de `12.81`), mantendo o cálculo do frontend alinhado com a base.
